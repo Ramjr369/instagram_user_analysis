@@ -1,0 +1,23 @@
+/*1. find the 5 oldest users */
+
+select username,created_at from users order by created_at limit 5;
+
+/*2. find the user who have never posted a single photo on instagram*/
+
+select * from users u left join photos p on p.user_id=u.id where p.image_url is null order by u.username;
+
+/*3. identify the winner of the contest */
+
+ select likes.photo_id,users.username,count(likes.user_id) as likes
+ from likes inner join photos on likes.photo_id=photos.id 
+ inner join users on photos.user_id=users.id group by
+ likes.photo_id, users_username order by likes desc;
+
+ /*4 identify and suggest the top 5 most commonly used hashtags on the platform
+
+ select t.tag_name, count(p.photo_id) as ht from photo_tags p inner join tags t on t.id=p.tag_id
+ group by t.tag_name order by ht desc;
+
+ /*5 what day of the week do most users register on? provid insights on when to schedule an ad campaign*/
+
+ select DATE_FORMAT((created_at),%w) as day, count(username) from users group by 1 order by 2 desc;
